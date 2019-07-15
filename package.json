@@ -1,6 +1,6 @@
 {
-  "name": "react-native-ble-manager",
-  "title": "React Native Ble Manager",
+  "name": "react-native-nearby",
+  "title": "React Native Nearby",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-ble-manager.git",
-    "baseUrl": "https://github.com/github_account/react-native-ble-manager"
+    "url": "git+https://github.com/github_account/react-native-nearby.git",
+    "baseUrl": "https://github.com/github_account/react-native-nearby"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "Przemyslaw Jamrozowicz",
+    "email": "pjamrozowicz@gmail.com"
   },
   "license": "Apache-2.0",
   "licenseFilename": "LICENSE",

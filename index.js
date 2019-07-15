@@ -1,5 +1,5 @@
 import { NativeModules } from 'react-native';
 
-const { BleManager } = NativeModules;
+const { Nearby } = NativeModules;
 
-export default BleManager;
+export default Nearby;
