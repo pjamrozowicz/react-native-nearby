@@ -16,9 +16,8 @@ public class NearbyPackage implements ReactPackage {
         return Arrays.<NativeModule>asList(new NearbyModule(reactContext));
     }
 
-    @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
