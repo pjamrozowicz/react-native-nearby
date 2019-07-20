@@ -9,8 +9,8 @@ export const Strategy = {
 
 class NearbyConnection {
 
-  static sendPayload(serviceIds, bytes) {
-    return Nearby.sendPayload(serviceIds, String(bytes));
+  static sendPayload(endpointIds, bytes) {
+    return Nearby.sendPayload(endpointIds, String(bytes));
   }
 
   // Start/Stop Advertise

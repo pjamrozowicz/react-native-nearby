@@ -81,28 +81,18 @@ public class NearbyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void acceptConnection(final String endpointId, Promise promise) {
-        final Endpoint endpoint = mEndpoints.get(endpointId);
-        if(endpoint != null) {
-            singletonClient
-                    .acceptConnection(endpointId, Callbacks.getPayloadCallback(mEndpoints, reactEvents))
-                    .addOnFailureListener(promise::reject)
-                    .addOnSuccessListener(promise::resolve);
-        } else {
-            promise.reject(new Exception("Endpoint doesn't exist"));
-        }
+        singletonClient
+                .acceptConnection(endpointId, Callbacks.getPayloadCallback(mEndpoints, reactEvents))
+                .addOnFailureListener(promise::reject)
+                .addOnSuccessListener(promise::resolve);
     }
 
     @ReactMethod
     public void rejectConnection(final String endpointId, Promise promise) {
-        final Endpoint endpoint = mEndpoints.get(endpointId);
-        if(endpoint != null) {
-            singletonClient
-                    .rejectConnection(endpointId)
-                    .addOnFailureListener(promise::reject)
-                    .addOnSuccessListener((result) -> promise.resolve(null));
-        } else {
-            promise.reject(new Exception("Endpoint doesn't exist"));
-        }
+        singletonClient
+                .rejectConnection(endpointId)
+                .addOnFailureListener(promise::reject)
+                .addOnSuccessListener((result) -> promise.resolve(null));
     }
 
     @ReactMethod
@@ -174,9 +164,13 @@ public class NearbyModule extends ReactContextBaseJavaModule {
             }
         }
 
-        singletonClient
-                .sendPayload(ids, Payload.fromBytes(bytes.getBytes()))
-                .addOnFailureListener(promise::reject)
-                .addOnSuccessListener((result) -> promise.resolve(null));
+        if(!ids.isEmpty()) {
+            singletonClient
+                    .sendPayload(ids, Payload.fromBytes(bytes.getBytes()))
+                    .addOnFailureListener(promise::reject)
+                    .addOnSuccessListener((result) -> promise.resolve(null));
+        } else {
+            promise.reject(new Error("List to send is empty"));
+        }
     }
 }
