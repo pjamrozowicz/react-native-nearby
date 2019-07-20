@@ -28,50 +28,45 @@ class ReactEvents {
         sendEvent("connection_initiated_to_endpoint", out);
     }
 
-    void endpointConnectionFailed(Endpoint endpoint) {
+    void endpointConnectionFailed(String endpointId) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
-        out.putString("endpointName", endpoint.getName());
+        out.putString("endpointId", endpointId);
 
         sendEvent("endpoint_connection_failed", out);
     }
 
-    void connectedToEndpoint(Endpoint endpoint) {
+    void connectedToEndpoint(String endpointId) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
-        out.putString("endpointName", endpoint.getName());
+        out.putString("endpointId", endpointId);
 
         sendEvent("connected_to_endpoint", out);
     }
 
-    void disconnectedFromEndpoint(Endpoint endpoint) {
+    void disconnectedFromEndpoint(String endpointId) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
-        out.putString("endpointName", endpoint.getName());
+        out.putString("endpointId", endpointId);
 
         sendEvent("disconnected_from_endpoint", out);
     }
 
-    void onReceivePayload(Endpoint endpoint, String data) {
+    void onReceivePayload(String endpointId, String data) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
-        out.putString("endpointName", endpoint.getName());
+        out.putString("endpointId", endpointId);
         out.putString("data", data);
 
         sendEvent("receive_payload", out);
     }
 
-    void onCorruptedMessage(Endpoint endpoint) {
+    void onCorruptedMessage(String endpointId) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
-        out.putString("endpointName", endpoint.getName());
+        out.putString("endpointId", endpointId);
 
         sendEvent("receive_corrupted_message", out);
     }
 
-    void onPayloadUpdate(Endpoint endpoint, PayloadTransferUpdate update) {
+    void onPayloadUpdate(String endpointId, PayloadTransferUpdate update) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
+        out.putString("endpointId", endpointId);
         out.putDouble("bytesTransferred", update.getBytesTransferred());
         out.putDouble("totalBytes", update.getTotalBytes());
         out.putInt("payloadStatus", update.getStatus());
@@ -88,10 +83,9 @@ class ReactEvents {
         sendEvent("endpoint_discovered", out);
     }
 
-    void endpointLost(Endpoint endpoint) {
+    void endpointLost(String endpointId) {
         WritableMap out = Arguments.createMap();
-        out.putString("endpointId", endpoint.getId());
-        out.putString("endpointName", endpoint.getName());
+        out.putString("endpointId", endpointId);
 
         sendEvent("endpoint_lost", out);
     }

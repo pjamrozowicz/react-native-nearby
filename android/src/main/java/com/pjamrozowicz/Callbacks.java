@@ -22,14 +22,13 @@ class Callbacks {
         return new PayloadCallback() {
             @Override
             public void onPayloadReceived(@NonNull String endpointId, @NonNull Payload payload) {
-                Endpoint endpoint = mEndpoints.get(endpointId);
-                if (payload.getType() == Payload.Type.BYTES && endpoint != null) {
+                if (payload.getType() == Payload.Type.BYTES) {
                     String data;
                     try {
                         data = new String(payload.asBytes(), "UTF-8");
-                        reactEvents.onReceivePayload(endpoint, data);
+                        reactEvents.onReceivePayload(endpointId, data);
                     } catch (UnsupportedEncodingException e) {
-                        reactEvents.onCorruptedMessage(endpoint);
+                        reactEvents.onCorruptedMessage(endpointId);
                     }
                 }
 
@@ -40,10 +39,7 @@ class Callbacks {
                     @NonNull String endpointId,
                     @NonNull PayloadTransferUpdate update
             ) {
-                Endpoint endpoint = mEndpoints.get(endpointId);
-                if (endpoint != null) {
-                    reactEvents.onPayloadUpdate(endpoint, update);
-                }
+                reactEvents.onPayloadUpdate(endpointId, update);
             }
         };
     }
@@ -62,26 +58,16 @@ class Callbacks {
 
             @Override
             public void onConnectionResult(@NonNull String endpointId, @NonNull ConnectionResolution result) {
-                // Both sides either accepted or rejected connection
-                Endpoint endpoint = mEndpoints.get(endpointId);
-                if (endpoint != null) {
-                    if (result.getStatus().isSuccess()) {
-                        endpoint.setConnected(true);
-                        reactEvents.connectedToEndpoint(endpoint);
-                    } else {
-                        endpoint.setConnected(false);
-                        reactEvents.endpointConnectionFailed(endpoint);
-                    }
+                if (result.getStatus().isSuccess()) {
+                    reactEvents.connectedToEndpoint(endpointId);
+                } else {
+                    reactEvents.endpointConnectionFailed(endpointId);
                 }
             }
 
             @Override
             public void onDisconnected(@NonNull String endpointId) {
-                Endpoint endpoint = mEndpoints.get(endpointId);
-                if (endpoint != null && endpoint.isConnected()) {
-                    endpoint.setConnected(false);
-                    reactEvents.disconnectedFromEndpoint(endpoint);
-                }
+                reactEvents.disconnectedFromEndpoint(endpointId);
             }
         };
     }
@@ -106,7 +92,7 @@ class Callbacks {
                 Endpoint existingEndpoint = mEndpoints.get(endpointId);
                 if(existingEndpoint != null) {
                     mEndpoints.remove(endpointId);
-                    reactEvents.endpointLost(existingEndpoint);
+                    reactEvents.endpointLost(endpointId);
                 }
             }
         };

@@ -141,13 +141,8 @@ public class NearbyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void disconnectFromEndpoint(final String endpointId, Promise promise) {
-        final Endpoint endpoint = mEndpoints.get(endpointId);
-        if(endpoint != null) {
-            singletonClient.disconnectFromEndpoint(endpointId);
-            endpoint.setConnected(false);
-        } else {
-            promise.resolve(null);
-        }
+        singletonClient.disconnectFromEndpoint(endpointId);
+        promise.resolve(null);
     }
 
     @ReactMethod
@@ -155,13 +150,7 @@ public class NearbyModule extends ReactContextBaseJavaModule {
         LinkedList<String> ids = new LinkedList<>();
         for(int i = 0;i<endpointIds.size();i++) {
             String endpointId = endpointIds.getString(i);
-            final Endpoint endpoint = mEndpoints.get(endpointId);
-            if(endpoint != null && endpoint.isConnected()) {
-                ids.push(endpointId);
-            } else {
-                promise.reject(new Exception("Endpoint not recognized or not connected"));
-                return;
-            }
+            ids.push(endpointId);
         }
 
         if(!ids.isEmpty()) {
